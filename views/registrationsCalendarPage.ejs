@@ -1,0 +1,165 @@
+<%- include("partials/head", { pageTitle, shellClass: "site-shell-public" }) %>
+<%- include("partials/publicNav") %>
+
+<section class="page-header">
+  <div class="shell-section">
+    <div class="page-header-grid">
+      <span class="eyebrow">Calendar view</span>
+      <h1 class="page-title">See your saved events in one calendar.</h1>
+      <p class="page-copy">
+        Use the month grid to spot busy dates quickly, then scroll into the agenda
+        list for a clearer upcoming and past event breakdown.
+      </p>
+    </div>
+    <%- include("partials/message", { message, errorMessage: "" }) %>
+  </div>
+</section>
+
+<section class="utility-section">
+  <div class="shell-section">
+    <div class="calendar-toolbar">
+      <div>
+        <span class="eyebrow">Selected month</span>
+        <h2 class="calendar-title"><%= monthHeading %></h2>
+      </div>
+
+      <div class="inline-actions">
+        <a
+          class="button-secondary button-small"
+          href="/events/registrations/calendar?month=<%= previousMonthValue %>"
+        >
+          Previous Month
+        </a>
+        <a
+          class="button-secondary button-small"
+          href="/events/registrations/calendar?month=<%= currentMonthValue %>"
+        >
+          Current Month
+        </a>
+        <a
+          class="button-secondary button-small"
+          href="/events/registrations/calendar?month=<%= nextMonthValue %>"
+        >
+          Next Month
+        </a>
+      </div>
+    </div>
+
+    <div class="calendar-shell">
+      <div class="calendar-weekdays">
+        <% weekDayLabels.forEach((weekDayLabel) => { %>
+          <span class="calendar-weekday"><%= weekDayLabel %></span>
+        <% }) %>
+      </div>
+
+      <div class="calendar-grid">
+        <% calendarRows.forEach((row) => { %>
+          <% row.forEach((day) => { %>
+            <article
+              class="calendar-day <%= day.isCurrentMonth ? '' : 'is-outside-month' %> <%= day.isToday ? 'is-today' : '' %>"
+            >
+              <div class="calendar-day-header">
+                <span class="calendar-day-number"><%= day.dateNumber %></span>
+              </div>
+
+              <% if (day.registrations.length === 0) { %>
+                <p class="calendar-empty">No saved events</p>
+              <% } else { %>
+                <div class="calendar-events">
+                  <% day.registrations.forEach((registration) => { %>
+                    <a
+                      class="calendar-event"
+                      href="/events/registrations/<%= registration._id %>/edit"
+                    >
+                      <span class="calendar-event-title"><%= registration.eventDetails.title %></span>
+                      <span class="calendar-event-meta"><%= registration.ticketCount %> seat(s)</span>
+                    </a>
+                  <% }) %>
+                </div>
+              <% } %>
+            </article>
+          <% }) %>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="utility-section">
+  <div class="shell-section">
+    <div class="section-header">
+      <span class="eyebrow">Agenda</span>
+      <h2 class="section-title">Review upcoming plans and past events in order.</h2>
+    </div>
+
+    <div class="agenda-grid">
+      <div class="agenda-column">
+        <div class="agenda-header">
+          <h3 class="agenda-title">Upcoming</h3>
+          <p class="agenda-copy">Your future and current events stay here first.</p>
+        </div>
+
+        <% if (agendaGroups.upcoming.length === 0) { %>
+          <div class="empty-state compact-empty-state">
+            <p class="empty-copy">No upcoming events have been saved yet.</p>
+          </div>
+        <% } else { %>
+          <% agendaGroups.upcoming.forEach((group) => { %>
+            <section class="agenda-group">
+              <h4 class="agenda-date"><%= group.fullDateLabel %></h4>
+
+              <% group.registrations.forEach((registration) => { %>
+                <article class="agenda-card">
+                  <a class="subtle-link" href="/events/<%= registration.eventDetails._id %>">
+                    <%= registration.eventDetails.title %>
+                  </a>
+                  <p class="agenda-meta">
+                    <strong>Location:</strong> <%= registration.eventDetails.location %>
+                  </p>
+                  <p class="agenda-meta">
+                    <strong>Seats:</strong> <%= registration.ticketCount %>
+                  </p>
+                </article>
+              <% }) %>
+            </section>
+          <% }) %>
+        <% } %>
+      </div>
+
+      <div class="agenda-column">
+        <div class="agenda-header">
+          <h3 class="agenda-title">Past Events</h3>
+          <p class="agenda-copy">Past events stay visible so users can review their history.</p>
+        </div>
+
+        <% if (agendaGroups.past.length === 0) { %>
+          <div class="empty-state compact-empty-state">
+            <p class="empty-copy">No past events are on your calendar yet.</p>
+          </div>
+        <% } else { %>
+          <% agendaGroups.past.forEach((group) => { %>
+            <section class="agenda-group">
+              <h4 class="agenda-date"><%= group.fullDateLabel %></h4>
+
+              <% group.registrations.forEach((registration) => { %>
+                <article class="agenda-card agenda-card-muted">
+                  <a class="subtle-link" href="/events/<%= registration.eventDetails._id %>">
+                    <%= registration.eventDetails.title %>
+                  </a>
+                  <p class="agenda-meta">
+                    <strong>Location:</strong> <%= registration.eventDetails.location %>
+                  </p>
+                  <p class="agenda-meta">
+                    <strong>Seats:</strong> <%= registration.ticketCount %>
+                  </p>
+                </article>
+              <% }) %>
+            </section>
+          <% }) %>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include("partials/footer") %>

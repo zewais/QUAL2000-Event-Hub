@@ -11,12 +11,18 @@
     </p>
     <div class="hero-actions inline-actions">
       <a class="button-primary" href="/events">Browse Events</a>
-      <a class="button-secondary button-hero-secondary" href="/events/registrations">
-        View My Registrations
-      </a>
+      <% if (isUserLoggedIn) { %>
+        <a class="button-secondary button-hero-secondary" href="/events/registrations">
+          View My Events
+        </a>
+      <% } else { %>
+        <a class="button-secondary button-hero-secondary" href="/register">
+          Create Your Account
+        </a>
+      <% } %>
     </div>
     <p class="hero-note">
-      One place to explore upcoming events and reserve your next ticket.
+      One place to explore upcoming events, save your seats, and keep your own calendar.
     </p>
   </div>
 </header>
@@ -40,12 +46,12 @@
         <span class="stat-label">Featured events highlighted on the home page</span>
       </div>
       <div class="stat-block">
-        <span class="stat-number">1</span>
-        <span class="stat-label">Simple registration flow for the course project</span>
+        <span class="stat-number">10</span>
+        <span class="stat-label">Maximum seats a user can manage for one event</span>
       </div>
       <div class="stat-block">
         <span class="stat-number">2</span>
-        <span class="stat-label">Sides of the app: public discovery and admin management</span>
+        <span class="stat-label">User calendar views: month grid and agenda list</span>
       </div>
     </div>
   </div>
@@ -111,12 +117,16 @@
       <span class="eyebrow">Ready to explore more?</span>
       <h2 class="cta-title">Move from the landing page into the full event directory.</h2>
       <p class="cta-copy">
-        Use the events page to browse every listing, open details, and create a new
-        registration when an event fits your schedule.
+        Use the events page to browse every listing, open details, and save events
+        into your personal calendar when the timing fits.
       </p>
       <div class="inline-actions">
         <a class="button-primary" href="/events">See All Events</a>
-        <a class="button-secondary" href="/events/registrations">My Registrations</a>
+        <% if (isUserLoggedIn) { %>
+          <a class="button-secondary" href="/events/registrations/calendar">My Calendar</a>
+        <% } else { %>
+          <a class="button-secondary" href="/login">Log In To Manage Events</a>
+        <% } %>
       </div>
     </div>
   </div>

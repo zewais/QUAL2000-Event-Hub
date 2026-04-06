@@ -3,6 +3,11 @@ const Schema = mongoose.Schema;
 
 const registrationSchema = new Schema(
   {
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     eventId: {
       type: Schema.Types.ObjectId,
       ref: "Event",
@@ -27,6 +32,7 @@ const registrationSchema = new Schema(
       type: Number,
       required: true,
       min: 1,
+      max: 10,
     },
     status: {
       type: String,

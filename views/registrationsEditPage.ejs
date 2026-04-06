@@ -4,11 +4,11 @@
 <section class="page-header">
   <div class="shell-section">
     <div class="page-header-grid">
-      <span class="eyebrow">Registration form</span>
-      <h1 class="page-title">Reserve your place for <%= event.title %>.</h1>
+      <span class="eyebrow">Update seats</span>
+      <h1 class="page-title">Adjust your seats for <%= event.title %>.</h1>
       <p class="page-copy">
-        Your account details will be used automatically. Choose how many seats you
-        want, and Event Hub will only confirm the request when enough slots remain.
+        Change the number of seats on your registration. Event Hub will keep the
+        event availability in sync with the update.
       </p>
     </div>
     <%- include("partials/message", { message, errorMessage: "" }) %>
@@ -19,9 +19,12 @@
   <div class="shell-section">
     <div class="detail-grid">
       <div class="detail-panel">
-        <span class="eyebrow">Event snapshot</span>
+        <span class="eyebrow">Registration details</span>
         <h2 class="detail-title"><%= event.title %></h2>
-        <p class="detail-copy"><%= event.description %></p>
+        <p class="detail-copy">
+          Update your current reservation without creating a second registration for
+          the same event.
+        </p>
 
         <div class="detail-list">
           <div class="detail-list-item">
@@ -37,8 +40,12 @@
             <span class="detail-value"><%= event.location %></span>
           </div>
           <div class="detail-list-item">
-            <span class="detail-label">Available Slots</span>
-            <span class="detail-value"><%= event.availableSlots %></span>
+            <span class="detail-label">Current Seats</span>
+            <span class="detail-value"><%= registration.ticketCount %></span>
+          </div>
+          <div class="detail-list-item">
+            <span class="detail-label">Maximum Allowed Right Now</span>
+            <span class="detail-value"><%= maxSeatCount %></span>
           </div>
         </div>
       </div>
@@ -46,7 +53,10 @@
       <div class="admin-form-shell">
         <%- include("partials/message", { message: "", errorMessage }) %>
 
-        <form action="/events/<%= event._id %>/register" method="POST">
+        <form
+          action="/events/registrations/<%= registration._id %>?_method=PATCH"
+          method="POST"
+        >
           <div class="form-grid">
             <div class="form-group form-group-full">
               <label class="label" for="ticketCount">Seat Count</label>
@@ -61,15 +71,15 @@
                 value="<%= formData.ticketCount %>"
               />
               <p class="input-help">
-                You can save up to <strong><%= maxSeatCount %></strong> seat(s) for
-                this event.
+                You can keep between <strong>1</strong> and
+                <strong><%= maxSeatCount %></strong> seat(s) on this registration.
               </p>
             </div>
           </div>
 
           <div class="form-actions">
-            <button class="button-primary" type="submit">Add To My Calendar</button>
-            <a class="button-secondary" href="/events/<%= event._id %>">Back To Event</a>
+            <button class="button-primary" type="submit">Save Seat Changes</button>
+            <a class="button-secondary" href="/events/registrations">Back To My Events</a>
           </div>
         </form>
       </div>

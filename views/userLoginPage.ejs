@@ -1,0 +1,45 @@
+<%- include("partials/head", { pageTitle, shellClass: "site-shell-public" }) %>
+<%- include("partials/publicNav") %>
+
+<section class="auth-shell">
+  <div class="auth-panel">
+    <div class="page-header-grid">
+      <span class="eyebrow">Welcome back</span>
+      <h1 class="page-title">Log in to manage your events.</h1>
+      <p class="page-copy">
+        Open your personal event list, update seat counts, and see your monthly
+        calendar after you sign in.
+      </p>
+    </div>
+
+    <%- include("partials/message", { message, errorMessage }) %>
+
+    <form action="/login" method="POST">
+      <div class="form-grid">
+        <div class="form-group form-group-full">
+          <label class="label" for="email">Email Address</label>
+          <input
+            class="input"
+            id="email"
+            name="email"
+            type="email"
+            required
+            value="<%= formData.email %>"
+          />
+        </div>
+
+        <div class="form-group form-group-full">
+          <label class="label" for="password">Password</label>
+          <input class="input" id="password" name="password" type="password" required />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="button-primary" type="submit">Log In</button>
+        <a class="button-secondary" href="/register">Create New Account</a>
+      </div>
+    </form>
+  </div>
+</section>
+
+<%- include("partials/footer") %>

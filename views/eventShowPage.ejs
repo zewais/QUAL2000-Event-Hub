@@ -48,11 +48,39 @@
         </div>
 
         <div class="form-actions">
-          <a class="button-primary" href="/events/registrations/<%= event._id %>">
-            Register For This Event
-          </a>
+          <% if (userRegistration) { %>
+            <a
+              class="button-primary"
+              href="/events/registrations/<%= userRegistration._id %>/edit"
+            >
+              Update My Seats
+            </a>
+            <a class="button-secondary" href="/events/registrations/calendar">
+              View My Calendar
+            </a>
+          <% } else if (!isUserLoggedIn) { %>
+            <a class="button-primary" href="/login">Log In To Register</a>
+            <a class="button-secondary" href="/register">Create Account</a>
+          <% } else if (event.availableSlots > 0) { %>
+            <a class="button-primary" href="/events/<%= event._id %>/register">
+              Register For This Event
+            </a>
+            <a class="button-secondary" href="/events/registrations">
+              View My Events
+            </a>
+          <% } else { %>
+            <span class="status-pill status-pill-danger">This event is full</span>
+          <% } %>
+
           <a class="button-secondary" href="/events">Back To Events</a>
         </div>
+
+        <% if (userRegistration) { %>
+          <div class="detail-note">
+            You already have <strong><%= userRegistration.ticketCount %></strong> seat(s)
+            saved for this event.
+          </div>
+        <% } %>
       </aside>
     </div>
   </div>

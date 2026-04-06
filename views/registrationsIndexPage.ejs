@@ -4,11 +4,11 @@
 <section class="page-header">
   <div class="shell-section">
     <div class="page-header-grid">
-      <span class="eyebrow">Single user registrations</span>
-      <h1 class="page-title">Track the events you have already booked.</h1>
+      <span class="eyebrow">My saved events</span>
+      <h1 class="page-title">Track and manage the events on your calendar.</h1>
       <p class="page-copy">
-        This page keeps the public registration history simple: review your current
-        bookings and delete one if you no longer need the spot.
+        Review the events you joined, update your seat count when plans change, and
+        remove an event if you no longer need it on your calendar.
       </p>
     </div>
     <%- include("partials/message", { message, errorMessage: "" }) %>
@@ -17,11 +17,16 @@
 
 <section class="utility-section">
   <div class="shell-section">
+    <div class="inline-actions section-actions">
+      <a class="button-primary" href="/events">Browse More Events</a>
+      <a class="button-secondary" href="/events/registrations/calendar">Open My Calendar</a>
+    </div>
+
     <% if (registrations.length === 0) { %>
       <div class="empty-state">
-        <h2 class="empty-title">No registrations yet.</h2>
+        <h2 class="empty-title">Your calendar is still empty.</h2>
         <p class="empty-copy">
-          Visit the events page to open a listing and create your first registration.
+          Visit the events page to open a listing and save your first event.
         </p>
         <div class="inline-actions">
           <a class="button-primary" href="/events">Browse Events</a>
@@ -33,29 +38,48 @@
           <thead>
             <tr>
               <th>Event</th>
-              <th>Attendee</th>
-              <th>Email</th>
-              <th>Tickets</th>
+              <th>Date</th>
+              <th>Location</th>
+              <th>Seats</th>
               <th>Status</th>
-              <th>Action</th>
+              <th>When</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             <% registrations.forEach((registration) => { %>
               <tr>
-                <td><%= registration.eventTitle %></td>
-                <td><%= registration.attendeeName %></td>
-                <td><%= registration.attendeeEmail %></td>
+                <td>
+                  <a
+                    class="subtle-link"
+                    href="/events/<%= registration.eventDetails._id %>"
+                  >
+                    <%= registration.eventDetails.title %>
+                  </a>
+                </td>
+                <td><%= formatDate(registration.eventDetails.date) %></td>
+                <td><%= registration.eventDetails.location %></td>
                 <td><%= registration.ticketCount %></td>
                 <td><span class="status-pill"><%= registration.status %></span></td>
                 <td>
+                  <span class="<%= registration.isPast ? 'status-pill status-pill-muted' : 'status-pill' %>">
+                    <%= registration.isPast ? "Past Event" : "Upcoming" %>
+                  </span>
+                </td>
+                <td>
                   <div class="table-actions">
+                    <a
+                      class="button-secondary button-small"
+                      href="/events/registrations/<%= registration._id %>/edit"
+                    >
+                      Edit Seats
+                    </a>
                     <form
                       action="/events/registrations/<%= registration._id %>?_method=DELETE"
                       method="POST"
                     >
                       <button class="button-danger" type="submit">
-                        Delete Registration
+                        Remove Event
                       </button>
                     </form>
                   </div>
