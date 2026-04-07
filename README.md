@@ -1,10 +1,18 @@
 # Event Hub QA Case Study
 
+## Note to Students
+
+These assignments can be an individual or a group of two. If you are working with a partner, you can divide the work as you see fit. Please provide one submission per student or per pair, not one submission per person if you are working in a pair. Also, please name your partner in the submission if you are working in a pair.
+
 ## Overview
 
 Event Hub is a server-rendered Node.js CRUD application that is being used as a
 case study for two QUAL2000 Quality Assurance and Testing assignments. Students
 will use this project as the system under test for:
+Submission dates:
+
+- Assignment 1: Tuesday, April 14th at 11:59 PM
+- Assignment 2: Thursday, April 23rd at 11:59 PM
 
 - Assignment 1: planning end-to-end test coverage and documenting that plan in
   [Test-Cases-Submission.xlsx](./Test-Cases-Submission.xlsx) while following
@@ -148,8 +156,8 @@ Required variables:
 DB_URI=your_mongodb_atlas_connection_string
 PORT=3000
 ADMIN_USERNAME=admin
-ADMIN_PASSWORD=change_this_password
-SESSION_SECRET=change_this_session_secret
+ADMIN_PASSWORD=change_this_password_to_anything_you_want_with_no_spaces_or_special_characters
+SESSION_SECRET=change_this_session_secret_to_anything_you_want_with_no_spaces_or_special_characters
 ```
 
 ### Step 2: Use your own MongoDB Atlas connection string
@@ -354,19 +362,18 @@ When students run Assignment 2, they should:
 
 ## Submission Guidance
 
-### Assignment 1 submission
+### Assignment 1 submission (Tuesday, April 14th at 11:59 PM)
 
 Students should submit the completed planning version of:
 
 - `Test-Cases-Submission.xlsx`
 
-### Assignment 2 submission
+### Assignment 2 submission (Thursday, April 23rd at 11:59 PM)
 
 Students should submit:
 
 - the updated `Test-Cases-Submission.xlsx` with execution results
-- their Playwright source code
-- any required reporting details requested by the course instructor
+- their Playwright source code or shared repository link for the test implementation
 
 ## Common Pitfalls
 
